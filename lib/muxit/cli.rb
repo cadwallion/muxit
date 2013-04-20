@@ -20,7 +20,7 @@ module Muxit
       `tmux kill-session -t #{name}`
     end
 
-    desc 'code NAME', 'opens up a new tmux session with split panes and in the project directory'
+    desc 'code NAME', 'opens up a new tmux session with split windows, in the project directory, with an $EDITOR pane'
     def code project
       name = project.split('/').last
       directory = "#{ENV['PROJECTS']}/#{project}"
