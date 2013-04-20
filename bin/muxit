@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'muxit'
+
+Muxit::CLI.start
