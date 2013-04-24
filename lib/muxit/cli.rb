@@ -7,7 +7,9 @@ module Muxit
 
     desc 'list', 'List all existing tmux sessions'
     def list
-      `tmux list-sessions`
+      IO.popen("tmux list-sessions", 'r') do |process|
+        puts process.gets until process.eof?
+      end
     end
 
     desc 'attach NAME', 'Attach to NAME session'
@@ -24,7 +26,7 @@ module Muxit
     def code project
       name = project.split('/').last
       directory = "#{ENV['PROJECTS']}/#{project}"
-      `tmux new-session -A -s #{name} 'cd #{directory} && #{ENV['EDITOR']}' \\; split-window -h -c #{directory}`
+      `tmux new-session -s #{name} 'cd #{directory} && #{ENV['EDITOR']}' \\; split-window -h -c #{directory}`
     end
   end
 end
