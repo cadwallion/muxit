@@ -21,10 +21,15 @@ module Muxit
     end
 
     desc 'code NAME', 'opens up a new tmux session with split windows, in the project directory, with an $EDITOR pane'
-    # "tmux new-session -s #{name} "'cd #{directory} && #{ENV['EDITOR']}' \\; split-window -h -c #{directory}"
     def code project
       name = project.split('/').last
-      directory = "#{ENV['PROJECTS']}/#{project}"
+
+      if project[0] == '/'
+        directory = project
+      else
+        directory = "#{ENV['PROJECTS']}/#{project}"
+      end
+
       args = ['new-session', '-A', '-s', name, "'cd #{directory} && #{ENV['EDITOR']}' \\; split-window -h -c #{directory}"]
       tmux_exec args
     end
